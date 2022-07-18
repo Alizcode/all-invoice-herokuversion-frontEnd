@@ -2,7 +2,7 @@ import H1 from "@material-tailwind/react/Heading1";
 import LeadText from "@material-tailwind/react/LeadText";
 import Button from "@material-tailwind/react/Button";
 import Icon from "@material-tailwind/react/Icon";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 
 
@@ -12,13 +12,8 @@ export default function Header() {
   const [subIndex, setSubIndex] = useState(0);
   const [blink, setBlink] = useState(true);
   const [reverse, setReverse] = useState(false);
-
-  const words = [
-    "tasks",
-    "clients",
-    "expenses",
-    "invoices",
-  ];
+  const words = useMemo(() => ["tasks", "clients", "expenses", "invoices", "tasks", "clients", "expenses", "invoices", "tasks", "clients", "expenses", "invoices"], []);
+ 
   useEffect(() => {
     if (index === words.length - 1 && subIndex === words[index].length) {
       return;
@@ -40,7 +35,7 @@ export default function Header() {
       setSubIndex((prev) => prev + (reverse ? -1 : 1));
     }, Math.max(reverse ? 75 : subIndex === words[index].length ? 500 : 150, parseInt(Math.random() * 350)));
     return () => clearTimeout(timeout);
-  }, [index, subIndex, reverse, ]);
+  }, [words, index, reverse, subIndex]);
 
   useEffect(() => {
     const timeout2 = setTimeout(() => {
@@ -61,7 +56,7 @@ export default function Header() {
             </div>
             <div className="text-cream-500">
               <LeadText color="" >
-                We keep track of yours{" "}
+                We keep track of your{" "}
                 {`${words[index].substring(0, subIndex)}${blink ? "|" : ""}`}.
               </LeadText>
               <a href="/register">

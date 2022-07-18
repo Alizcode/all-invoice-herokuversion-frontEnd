@@ -3,7 +3,7 @@ import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 import Button from "@material-tailwind/react/Button";
 import Input from "@material-tailwind/react/Input";
-import Textarea from "@material-tailwind/react/Textarea";
+//import Textarea from "@material-tailwind/react/Textarea";
 import Icon from "@material-tailwind/react/Icon";
 import { useState, useContext } from "react";
 import { UserContext } from "components/stateManager";
@@ -194,15 +194,17 @@ export const InvoiceForm = () => {
             </h2>
 
             <div className="mt-10">
-              <div className="flex flex-col">
-                <div className="lg:w-3/12 mb-10 font-light">
+              <div className="flex flex-wrap">
+                <div className="w-full lg:w-5/12 m-0.5 font-light">
                   <header className="App-header">
                     <div>
                       <ReactSearchAutocomplete
                         items={items}
                         onSelect={clientHandleOnSelect}
                         onFocus={clientHandleOnFocus}
-                        placeholder="Saved Clients"
+                        placeholder="Search from Saved Clients"
+                        showNoResults={true}
+                        showNoResultsText="No Client found add a new one"
                       />
                     </div>
                   </header>
@@ -213,13 +215,13 @@ export const InvoiceForm = () => {
                         <Icon
                           onClick={() => setSelectedClient(false)}
                           name="close"
-                          size="sm"
+                          size="lg"
                         />
                       </Label>
                     </div>
                   )}
                 </div>
-                <div className="w-full lg:w-2/6 mb-10 font-light">
+                <div className="w-full lg:w-2/6 m-0.5 font-light">
                   <Link to="/clients">
                     <Button
                       color="lightBlue"
@@ -228,7 +230,7 @@ export const InvoiceForm = () => {
                       iconOnly={false}
                       ripple="dark"
                     >
-                      Add new Client
+                     or Add new Client
                     </Button>
                   </Link>
                 </div>
@@ -253,7 +255,7 @@ export const InvoiceForm = () => {
                   />
                 </div>
               </div>
-              <div className="w-small lg:w-5/12 pr-4 mb-10 font-light">
+              {/* <div className="w-small lg:w-5/12 pr-4 mb-10 font-light">
                 <Textarea
                   type="text"
                   color="purple"
@@ -264,7 +266,7 @@ export const InvoiceForm = () => {
                   onChange={handleDataInputField}
                   value={inputField.message}
                 />
-              </div>
+              </div> */}
 
               <div className="flex flex-wrap">
                 <div className="w-full  lg:w-4/12 pr-4 mb-10 font-light">

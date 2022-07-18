@@ -17,7 +17,6 @@ Use a better box model (opinionated).
 Use a more readable tab size (opinionated).
 */
 html {
-	-moz-tab-size: 4;
 	tab-size: 4;
 }
 /**
@@ -554,6 +553,12 @@ video {
 .m-2{
 	margin: 0.5rem;
 }
+.m-0\.5{
+	margin: 0.125rem;
+}
+.m-0{
+	margin: 0px;
+}
 .mx-auto{
 	margin-left: auto;
 	margin-right: auto;
@@ -644,6 +649,9 @@ video {
 }
 .mt-32{
 	margin-top: 8rem;
+}
+.ml-10{
+	margin-left: 2.5rem;
 }
 .block{
 	display: block;
@@ -794,6 +802,9 @@ video {
 }
 .flex-nowrap{
 	flex-wrap: nowrap;
+}
+.flex-wrap-reverse{
+	flex-wrap: wrap-reverse;
 }
 .content-center{
 	align-content: center;
@@ -1229,8 +1240,7 @@ Use a better box model (opinionated).
 Use a more readable tab size (opinionated).
 */
 html {
-	-moz-tab-size: 4;
-	   tab-size: 4;
+	tab-size: 4;
 }
 /**
 1. Correct the line height in all browsers.
@@ -2747,6 +2757,12 @@ video {
 	.xs\:invisible{
 		visibility: hidden;
 	}
+	.xs\:m-0\.5{
+		margin: 0.125rem;
+	}
+	.xs\:m-0{
+		margin: 0px;
+	}
 	.xs\:mt-1{
 		margin-top: 0.25rem;
 	}
@@ -2778,6 +2794,12 @@ video {
 @media (min-width: 600px){
 	.sm\:right-0{
 		right: 0px;
+	}
+	.sm\:m-0{
+		margin: 0px;
+	}
+	.sm\:m-0\.5{
+		margin: 0.125rem;
 	}
 	.sm\:mb-0{
 		margin-bottom: 0px;

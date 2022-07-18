@@ -5,25 +5,28 @@ import { useEffect, useState } from "react";
 
 export default function BestClient() {
   const [invoices, setInvoices] = useState([]);
+  
   const newArr = [];
   useEffect(() => {
     const getData = async () => {
   
       try {
-        const response = await fetch("/myinvoices", { method: "GET" });
+        const response = await fetch("/myinvoices", { method: "POST" });
       const data = await response.json();
       if (data) {
-        data.map((ele) => {
-          ele.items.map((e) => {
-            const taskObj = {
-              client: ele.client,
+        
+        data.map((ele) => 
+        ele.items.map((e) => {
+          const taskObj = {
+            client: ele.clientName,
               amount: e.amount,
             };
             if (!newArr.find((task) => task.client === ele.client)) {    
-            newArr.push(taskObj);}
-          });
-          
-        })
+            return newArr.push(taskObj);
+            }
+            return false
+          })
+        )
         const resultArr = [];
         for (let i = 0; i < newArr.length; i++) {
           if (resultArr.length === 0) {
@@ -41,19 +44,18 @@ export default function BestClient() {
             }
           }
         }
+        
         const s = data.sort((a, b) => b.items.amount - a.items.amount );
        
         setInvoices(s);
-        // console.log(s);
       }
       
     } catch (err) {
       console.log(err);
     }
-    // return [invoices]
   }
   getData();
-}, [])
+})
  
   return (
     <Card>

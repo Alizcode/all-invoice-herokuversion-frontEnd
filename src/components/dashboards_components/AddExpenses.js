@@ -96,7 +96,7 @@ export default function AddExpenses() {
 
   return (
     <>
-      <div className="w-full flex flex-column flex-wrap">
+      <div className="w-full flex flex-column flex-wrap-reverse">
         <div className="w-full lg:w-1/2 lg:px-2 text-center">
           <Card className=" min-w-px-750">
             <CardHeader
@@ -199,7 +199,7 @@ export default function AddExpenses() {
               color="purple"
               contentPosition="none"
             >
-              <h2 className="text-white text-center md:text-4xl sm:text-3xl xs:text-2xl">Expenses</h2>
+              <h2 className="text-white text-center md:text-4xl sm:text-3xl xs:text-2xl">My Expenses</h2>
             </CardHeader>
             <CardBody>
               <div className="mt-10 overflow-x-auto  ">

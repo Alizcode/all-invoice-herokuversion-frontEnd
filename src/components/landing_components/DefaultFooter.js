@@ -22,10 +22,10 @@ export default function DefaultFooter() {
               <div className="text-sm text-gray-700 font-medium py-1">
                 Copyright © {new Date().getFullYear()} All-Invoice by{" "}
                 <a
-                  href="/"
+                  href="/aboutus"
                   className="text-gray-700 hover:text-gray-900 transition-all"
                 >
-                  Edo, Carlos, Ali, Divyaa & James
+                  Edo, Carlos, Ali & James
                 </a>
                 .
               </div>

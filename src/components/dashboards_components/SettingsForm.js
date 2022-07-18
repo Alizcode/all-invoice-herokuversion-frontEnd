@@ -61,7 +61,6 @@ export default function SettingsForm() {
         axios
           .post("/uploadimage", formData, config)
           .then((res) => {
-            console.log(res)
               setResCol('lightGreen');
         setImageResp('Image uploaded successfully');
         setFile(null);

@@ -112,13 +112,13 @@ const [selectedCountry, setSelectedCountry] = useState({});
   }, [])
   return (
     <>
-    <div className="w-full flex flex-column flex-wrap">
+    <div className="w-full flex flex-column flex-wrap-reverse">
       <div className="w-full lg:w-1/2 lg:px-2 text-center">      
       <Card>
         <CardHeader
           color="purple"
         >
-          <h2 className="text-white text-center text-2xl">Clients Management</h2>
+          <h2 className="text-white text-center text-2xl">New Client Management</h2>
         </CardHeader>
         <CardBody>
           <>

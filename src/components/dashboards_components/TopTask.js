@@ -8,50 +8,50 @@ export default function TopTask() {
   const newArr = [];
   useEffect(() => {
     (async function topTask() {
-      const response = await fetch("/myinvoices", { method: "GET" });
-      response
-        .json()
-        .then(
-          (data) => {
-            data.map((ele) => {
-              ele.items.map((e) => {
-                const taskObj = {
-                  description: e.description,
-                  hours: e.hours,
-                  amount: e.amount,
-                };
-                if (!newArr.find((task) => task.description === e.description)) {    
-                 newArr.push(taskObj);}
+      const response = await fetch("/myinvoices", { method: "POST" });
+      if(response){
+        response.json().then((data) => {
+              data.map((ele) => {
+                return ele.items.map((e) => {
+                  const taskObj = {
+                    description: e.description,
+                    hours: e.hours,
+                    amount: e.amount,
+                  };
+                  if (!newArr.find((task) => task.description === e.description)) {    
+                  return newArr.push(taskObj);}
+                  return false
+                });
+                
               });
-              
-            });
-            const resultArr = [];
-            for (let i = 0; i < newArr.length; i++) {
-              if (resultArr.length === 0) {
-                resultArr.push(newArr[i]);
-              } else {
-                for (let j = 0; j < resultArr.length; j++) {
-                  if (newArr[i].description === resultArr[j].description) {
-                    newArr[i].hours += resultArr[j].hours;
-                    newArr[i].amount += resultArr[j].amount;
-                    resultArr.push(newArr[i]);
-                    break;
-                  } else if (j === resultArr.length - 1) {
-                    resultArr.push(newArr[i]);
-                    break;
+              const resultArr = [];
+              for (let i = 0; i < newArr.length; i++) {
+                if (resultArr.length === 0) {
+                  resultArr.push(newArr[i]);
+                } else {
+                  for (let j = 0; j < resultArr.length; j++) {
+                    if (newArr[i].description === resultArr[j].description) {
+                      newArr[i].hours += resultArr[j].hours;
+                      newArr[i].amount += resultArr[j].amount;
+                      resultArr.push(newArr[i]);
+                      break;
+                    } else if (j === resultArr.length - 1) {
+                      resultArr.push(newArr[i]);
+                      break;
+                    }
                   }
                 }
               }
+              resultArr.sort((a, b) => b.hours - a.hours)
+              return setTasks(resultArr.slice(0, 5));
             }
-            resultArr.sort((a, b) => b.hours - a.hours)
-            setTasks(resultArr.slice(0, 5));
-          }
-        )
-        .catch((err) => {
-          console.log(err);
-        });
+          )
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     })();
-  }, [newArr]);
+  });
  
   return (
     <>

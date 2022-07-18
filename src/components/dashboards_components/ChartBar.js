@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { Chart } from "chart.js";
 import Card from "@material-tailwind/react/Card";
 import CardHeader from "@material-tailwind/react/CardHeader";
 import CardBody from "@material-tailwind/react/CardBody";
 
 export default function ChartBar() {
-  const [chartDataInvoice, setChartDataInvoice] = useState(null);
-  const [chartDataExpenses, setChartDataExpenses] = useState(null);
+  
   let config = {
     type: "bar",
     data: {
@@ -26,7 +25,7 @@ export default function ChartBar() {
       ],
       datasets: [
         {
-          label: "Incomings",
+          label: "Income",
           backgroundColor: "#03a9f4",
           borderColor: "#03a9f4",
           data: [],
@@ -107,52 +106,30 @@ export default function ChartBar() {
   useEffect(() => {
     const getInvoices = async () => {
       try {
-        const response = await fetch("/myinvoices", { method: "GET" });
-        const data = await response.json();
-        const months = data.map(
-          (invoice) =>
-          (invoice.date = new Date(invoice.date).toLocaleString("default", {
-            month: "long",
-          }))
-        );
-        let invoiceObj = {};
-        data.map((invoice) => {
-          let finalResult = 0;
-          invoice.items.map(
-            (item) =>
-              (finalResult += parseInt(item.hours) * parseInt(item.amount))
-          );
-          if (invoiceObj[invoice.date]) {
-            invoiceObj[invoice.date] += finalResult;
-          } else {
-            invoiceObj[invoice.date] = finalResult;
-          }
-        });
-        config.data.labels.map((item, i) => {
-          if (invoiceObj[item]) {
-            config.data.datasets[0].data[i] = invoiceObj[item];
-          } else {
-            config.data.datasets[0].data[i] = 0;
-          }
-        });
-        setChartDataInvoice(config);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    setTimeout(() => {
-      let ctx = document.getElementById("bar-chart").getContext("2d");
-      window.myBar = new Chart(ctx, config);
-    }, 500);
-    getInvoices();
-  }, []);
+        const response = await fetch("/myinvoices", { method: "POST" });
+        if(response){
 
-  useEffect(() => {
-    const getExpenses = async () => {
+          const data = await response.json();
+          let finalResult = [];
+          let invoiceObj = {};
+          data.map((invoice, i) => {
+            (invoice.date = new Date(invoice.date).toLocaleString("default", { month: "long"}))
+            invoice.items.map((item) => (finalResult.push(parseInt(item.hours) * parseInt(item.amount))))
+          if (invoiceObj[i]) {
+            config.data.datasets[0].data[i] = invoiceObj[i];
+          } else {
+            config.data.datasets[0].data.push(finalResult[i]);
+          }
+          return false
+          });
+        }
+      } catch (err) {
+        console.log('get invoices outer', err);
+      }
       try {
         const response = await fetch("/getexpenses", { method: "POST" });
         const data = await response.json();
-        const expensesMonth = data.data.map((expense) => (
+        data.data.map((expense) => (
           expense.date = new Date(expense.date).toLocaleString("default", { month: "long" })
         ))
         let expensesObj = {};
@@ -160,29 +137,29 @@ export default function ChartBar() {
           let finalResult = 0;
           finalResult += parseInt(expense.amount);
           if (expensesObj[expense.date]) {
-            expensesObj[expense.date] += finalResult;
+            return expensesObj[expense.date] += finalResult;
           } else {
-            expensesObj[expense.date] = finalResult;
+            return expensesObj[expense.date] = finalResult;
           }
         })
         config.data.labels.map((item, i) => {
           if (expensesObj[item]) {
-            config.data.datasets[1].data[i] = expensesObj[item];
+            return config.data.datasets[1].data[i] = expensesObj[item];
           } else {
-            config.data.datasets[1].data[i] = 0;
+            return config.data.datasets[1].data[i] = 0;
           }
         })
-        setChartDataExpenses(config);
       } catch (err) {
         console.log(err);
       }
-    }
-    setTimeout(() => {
+    };
+    getInvoices();
+    const timer = setTimeout(() => {
       let ctx = document.getElementById("bar-chart").getContext("2d");
       window.myBar = new Chart(ctx, config);
     }, 500);
-    getExpenses();
-  }, [])
+    return () => clearTimeout(timer);
+  });
 
   return (
     <Card>
